@@ -14,5 +14,14 @@
         {{ form.as_p }}
         <button type="submit">Envoyer</button>
     </form>
+
+    <h2>Liste de tâches :</h2>
+    <ul>
+        {% for tache in taches %}
+            <li>{{ tache }}</li>
+        {% endfor %}
+    </ul>
+
+    <p>Le paragraphe ajouté !</p>
 </body>
 </html>
