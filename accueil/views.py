@@ -1,43 +1,47 @@
-from django.shortcuts import render
-
-# from django.http import HttpResponse
-
-from django.shortcuts import render
-from datetime import date, datetime
-from .forms import NomForm
+from django.shortcuts import render, redirect
+from .forms import TacheForm
 from .models import Tache
+from datetime import date, datetime
 
-def bonjour(request):
-    current_hour = datetime.now().hour
-    if current_hour < 12:
-        message = "Bon matin !"
-    else:
-        message = "Bon après-midi !"
+def liste_taches(request):
+    """
+    Vue pour afficher la liste des tâches et le formulaire d'ajout.
 
-    if request.method == 'POST':
-        form = NomForm(request.POST)
-        if form.is_valid():
-            nom = form.cleaned_data['nom']
-            message = f"{message} {nom} !"
-    else:
-        form = NomForm()
+    Arguments :
+        request (HttpRequest) : L'objet de requête HTTP.
 
-    # Liste de tâches
-    # taches = [
-    #    "Apprendre Django",
-    #    "Créer un projet web",
-    #    "Faire une pause café",
-    #    "Boire un café",
-    #    "Déployer l'application"
-    #]
-    
-    # Récupérer toutes les tâches depuis la base de données, ordonnées par titre
+    Retourne :
+        HttpResponse : La réponse HTTP contenant le rendu de la page d'accueil.
+    """
+    # current_hour = datetime.now().hour
+    # if current_hour < 12:
+    #     message = "Bon matin !"
+    # else:
+    #     message = "Bon après-midi !"
+
+    form = TacheForm()
     taches = Tache.objects.all().order_by('titre')
 
     context = {
-        'message': message,
-        'date_du_jour': date.today(),
+        # 'message': message,
+        # 'date_du_jour': date.today(),
         'form': form,
         'taches': taches
     }
     return render(request, 'accueil/index.html', context)
+
+def ajouter_tache(request):
+    """
+    Vue pour gérer l'ajout d'une nouvelle tâche.
+
+    Arguments :
+        request (HttpRequest) : L'objet de requête HTTP.
+
+    Retourne :
+        HttpResponse : Redirige vers la vue liste_taches après ajout.
+    """
+    if request.method == 'POST':
+        form = TacheForm(request.POST)
+        if form.is_valid():
+            form.save()
+    return redirect('liste_taches')

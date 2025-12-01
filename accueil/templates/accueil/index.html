@@ -10,10 +10,10 @@
     <h1>{{ message }}</h1>
     <p>Nous sommes le {{ date_du_jour }}</p>
 
-    <form method="post">
+    <form method="post" action="{% url 'ajouter_tache' %}">
         {% csrf_token %}
         {{ form.as_p }}
-        <button type="submit">Envoyer</button>
+        <button type="submit">Ajouter Tâche</button>
     </form>
 
     <h2>Liste de tâches :</h2>
