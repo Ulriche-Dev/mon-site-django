@@ -5,6 +5,7 @@ from django.shortcuts import render
 from django.shortcuts import render
 from datetime import date, datetime
 from .forms import NomForm
+from .models import Tache
 
 def bonjour(request):
     current_hour = datetime.now().hour
@@ -22,13 +23,16 @@ def bonjour(request):
         form = NomForm()
 
     # Liste de tâches
-    taches = [
-        "Apprendre Django",
-        "Créer un projet web",
-        "Faire une pause café",
-        "Boire un café",
-        "Déployer l'application"
-    ]
+    # taches = [
+    #    "Apprendre Django",
+    #    "Créer un projet web",
+    #    "Faire une pause café",
+    #    "Boire un café",
+    #    "Déployer l'application"
+    #]
+    
+    # Récupérer toutes les tâches depuis la base de données, ordonnées par titre
+    taches = Tache.objects.all().order_by('titre')
 
     context = {
         'message': message,
