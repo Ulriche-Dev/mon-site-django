@@ -7,8 +7,7 @@
     <link rel="stylesheet" href="/static/accueil/style.css">
 </head>
 <body>
-    <h1>{{ message }}</h1>
-    <p>Nous sommes le {{ date_du_jour }}</p>
+    <h1>Gestion des tâches</h1>
 
     <form method="post" action="{% url 'ajouter_tache' %}">
         {% csrf_token %}
